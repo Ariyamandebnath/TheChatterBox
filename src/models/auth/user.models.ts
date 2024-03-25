@@ -6,7 +6,7 @@ import crypto from "crypto";
 
 
 // Define interface for User document
-interface IUser extends Document {
+export interface IUser extends Document {
     avatar: {
         url: string;
         localPath: string;
@@ -22,6 +22,7 @@ interface IUser extends Document {
     emailVerificationToken?: string;
     emailVerificationExpiry?: Date;
     generateAccessToken: () => string;
+    generateRefreshToken: ()=> string;
 }
 
 // Define user schema
