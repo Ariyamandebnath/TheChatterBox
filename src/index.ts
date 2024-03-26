@@ -11,7 +11,7 @@ dotenv.config({
 const startServer = () => {
     httpServer.listen(process.env.PORT || 3000, () => {
         console.info(
-            ` Visit cocumentation at : http://localhost:${process.env.PORT || 3000
+            ` Visit documentation at : http://localhost:${process.env.PORT || 3000
             }`
         );
         console.log("⚙️  Server is running on port: " + process.env.PORT);

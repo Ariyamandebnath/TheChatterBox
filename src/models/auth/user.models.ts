@@ -5,28 +5,8 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 
 
-// Define interface for User document
-export interface IUser extends Document {
-    avatar: {
-        url: string;
-        localPath: string;
-    };
-    username: string;
-    email: string;
-    role: keyof typeof UserRolesEnum;
-    password: string;
-    isEmailVerified: boolean;
-    refreshToken?: string;
-    forgotPasswordToken?: string;
-    forgotPasswordExpiry?: Date;
-    emailVerificationToken?: string;
-    emailVerificationExpiry?: Date;
-    generateAccessToken: () => string;
-    generateRefreshToken: ()=> string;
-}
-
 // Define user schema
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema({
     avatar: {
         type: {
             url: String,
