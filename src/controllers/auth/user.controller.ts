@@ -1,8 +1,10 @@
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
-import { User, IUser, UserDocument } from "models/auth/user.models"; // Assuming UserDocument is the type for documents returned by mongoose
+import { User } from "models/auth/user.models";
+import { Request, Response } from 'express';
+// Assuming UserDocument is the type for documents returned by mongoose
 import { ApiError } from "utils/ApiError";
-import { asyncHandler, Request, Response } from "utils/asyncHandler";
+import { asyncHandler } from "utils/asyncHandler";
 import { ApiResponse } from "utils/ApiResponse";
 import { emailVerificationMailgenContent, sendEmail } from "utils/mail";
 
@@ -13,7 +15,7 @@ interface TokenPair {
 
 const generateAccessAndRefreshToken = async (userId: string): Promise<TokenPair> => {
     try {
-        const user: IUser | null = await User.findById(userId);
+        const user = await User.findById(userId);
         if (!user) {
             throw new ApiError(404, "User not found");
         }
@@ -36,14 +38,14 @@ const generateAccessAndRefreshToken = async (userId: string): Promise<TokenPair>
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
     const { username, email, password, role } = req.body;
 
-    const existingUser: IUser | null = await User.findOne({
+    const existingUser = await User.findOne({
         $or: [{ username }, { email }],
     });
     if (existingUser) {
         throw new ApiError(409, "User with email or username already exists", []);
     }
 
-    const user: UserDocument = await User.create({
+    const user = await User.create({
         email,
         password,
         username,
@@ -66,7 +68,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
         ),
     });
 
-    const createdUser: UserDocument | null = await User.findById(user._id).select(
+    const createdUser = await User.findById(user._id).select(
         "-password -refreshToken -emailVerificationToken -emailVerificationExpiry"
     );
 
@@ -77,7 +79,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
     return res
         .status(201)
         .json(
-            "USer registration was successfull and verification email has been sent on your email."
+            "USer registration was successfull and verification email has been sent on your email.",
         );
 });
 
