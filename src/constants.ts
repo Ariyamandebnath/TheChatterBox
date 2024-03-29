@@ -9,13 +9,13 @@ type UserRoles = keyof typeof UserRolesEnum; // "ADMIN" | "USER"
 
 export const AvailableUserRoles: UserRoles[] = Object.values(UserRolesEnum);
 
-export const UserLoginTypes = {
+export const UserLoginType = {
     GOOGLE: "GOOGLE" as const,
     GITHUB: "GITHUB" as const,
     EMAIL_PASSWORD: "EMAIL_PASSWORD" as const,
 } as const;
 
-export const AvailableSocialLogins = Object.values(UserLoginTypes) as string[];
+export const AvailableSocialLogins = Object.values(UserLoginType) as string[];
 
 //set of events that we are using in chat app.
 
