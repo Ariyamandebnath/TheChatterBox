@@ -48,3 +48,33 @@ export const filetObjectKeys = (fieldArray:string[], objectArray: any[]): any[]=
 };
 
 
+/**
+ *
+ * @param {any[]} dataArray
+ * @param {number} page
+ * @param {number} limit
+ * @returns {{previousPage: string | null, currentPage: string, nextPage: string | null, data: any[]}}
+ */
+export const getPaginatedPayload = (dataArray:any[], page:number, limit:number) => {
+  const startPosition = +(page - 1) * limit;
+
+  const totalItems = dataArray.length; // total documents present after applying search query
+  const totalPages = Math.ceil(totalItems / limit);
+
+  dataArray = structuredClone(dataArray).slice(
+    startPosition,
+    startPosition + limit
+  );
+
+  const payload = {
+    page,
+    limit,
+    totalPages,
+    previousPage: page > 1,
+    nextPage: page < totalPages,
+    totalItems,
+    currentPageItems: dataArray?.length,
+    data: dataArray,
+  };
+  return payload;
+};
