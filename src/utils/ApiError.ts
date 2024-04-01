@@ -1,3 +1,6 @@
+import {errorHandler} from "../middlewares/error.middleware"
+
+
 class ApiError extends Error {
     public readonly statusCode: number;
     public readonly message: string;
