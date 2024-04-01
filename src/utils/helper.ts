@@ -1,6 +1,6 @@
 import fs from 'fs';
 import mongoose from 'mongoose';
-
+import express from "express";
 /*this is an utility function to only  include files present in a fieldsArray 
 For example:-->
 ler fieldsArray = [{
@@ -46,15 +46,15 @@ export const filetObjectKeys = (fieldArray:string[], objectArray: any[]): any[]=
   });
   return filteredArray;
 };
+/*
+The getPaginatedPayload function generates a paginated payload containing data from the given array, along with pagination details.
 
 
-/**
- *
- * @param {any[]} dataArray
- * @param {number} page
- * @param {number} limit
- * @returns {{previousPage: string | null, currentPage: string, nextPage: string | null, data: any[]}}
- */
+
+Returns the constructed paginated payload object containing pagination details and data for the current page.
+*/ 
+
+
 export const getPaginatedPayload = (dataArray:any[], page:number, limit:number) => {
   const startPosition = +(page - 1) * limit;
 
@@ -77,4 +77,28 @@ export const getPaginatedPayload = (dataArray:any[], page:number, limit:number) 
     data: dataArray,
   };
   return payload;
+};
+
+//Returns the file's static path from wher the server is serving the static images
+
+
+export const getStaticFielPath = (req: express.Request, filename: String) => {
+  return `${filename}`
+};
+
+//retuns the file's local path in the file system to assist future remaoval
+
+export const getLocalPath = (filename: string) => {
+  return `public/images/${filename}`;
+}
+
+// Remove the local file from the local file system based on the file path
+
+export const removeLocalFile = (localPath: string) => {
+  fs.unlink(localPath, (err) => {
+    if (err) console.log("Error while removing local files: ", err);
+    else {
+      console.log("Removed local: ", localPath);
+    }
+  });
 };
