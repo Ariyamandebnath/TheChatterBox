@@ -64,7 +64,7 @@ const userSchema = new Schema({
 }, { timestamps: true });
 
 // Define pre-save middleware to hash password before saving
-userSchema.pre<IUser>('save', async function (next) {
+userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();
     }
@@ -127,4 +127,4 @@ userSchema.methods.generateTemporaryToken = function (): { unHashedToken: string
 };
 
 // Create and export User model
-export const User = mongoose.model<IUser>('User', userSchema);
+export const User = mongoose.model('User', userSchema);
